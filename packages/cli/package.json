@@ -1,6 +1,6 @@
 {
   "name": "dumplingai-cli",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "DumplingAI CLI — scrape, search, and extract from the terminal",
   "license": "MIT",
   "type": "module",
@@ -26,7 +26,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dumplingai/cli.git"
+    "url": "https://github.com/DumplingAI/cli"
   },
   "homepage": "https://www.dumplingai.com",
   "bugs": {
