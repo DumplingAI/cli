@@ -6,10 +6,10 @@ Scrape, search, and extract web content from the terminal — powered by the [Du
 
 ```bash
 # Option 1: No install required
-npx -y @dumplingai/cli init
+npx -y dumplingai-cli init
 
 # Option 2: Global install
-npm install -g @dumplingai/cli
+npm install -g dumplingai-cli
 dumplingai login --api-key sk_yourkey
 ```
 
@@ -116,7 +116,7 @@ Config file location:
 
 ```bash
 pnpm install
-pnpm --filter @dumplingai/cli build
-pnpm --filter @dumplingai/cli test
+pnpm --filter dumplingai-cli build
+pnpm --filter dumplingai-cli test
 node packages/cli/dist/index.js --help
 ```

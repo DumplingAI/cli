@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    name: Publish @dumplingai/cli
+    name: Publish dumplingai-cli
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,15 +29,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck
-        run: pnpm --filter @dumplingai/cli typecheck
+        run: pnpm --filter dumplingai-cli typecheck
 
       - name: Test
-        run: pnpm --filter @dumplingai/cli test
+        run: pnpm --filter dumplingai-cli test
 
       - name: Build
-        run: pnpm --filter @dumplingai/cli build
+        run: pnpm --filter dumplingai-cli build
 
       - name: Publish
-        run: pnpm --filter @dumplingai/cli publish --no-git-checks
+        run: pnpm --filter dumplingai-cli publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

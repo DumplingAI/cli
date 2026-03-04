@@ -50,15 +50,15 @@ const INSTALL_MD = `# Installation
 ## Quick Start (npx)
 
 \`\`\`bash
-npx -y @dumplingai/cli init
+npx -y dumplingai-cli init
 \`\`\`
 
 ## Global Install
 
 \`\`\`bash
-npm install -g @dumplingai/cli
+npm install -g dumplingai-cli
 # or
-pnpm add -g @dumplingai/cli
+pnpm add -g dumplingai-cli
 \`\`\`
 
 ## PATH Troubleshooting

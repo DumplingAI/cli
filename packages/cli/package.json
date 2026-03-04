@@ -1,6 +1,6 @@
 {
-  "name": "@dumplingai/cli",
-  "version": "0.1.0",
+  "name": "dumplingai-cli",
+  "version": "0.1.1",
   "description": "DumplingAI CLI — scrape, search, and extract from the terminal",
   "license": "MIT",
   "type": "module",
@@ -12,7 +12,8 @@
   },
   "main": "./dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "keywords": [
     "dumplingai",
@@ -25,11 +26,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dumplingai-org/cli.git"
+    "url": "https://github.com/dumplingai/cli.git"
   },
-  "homepage": "https://app.dumplingai.com",
+  "homepage": "https://www.dumplingai.com",
   "bugs": {
-    "url": "https://github.com/dumplingai-org/cli/issues"
+    "url": "https://github.com/dumplingai/cli/issues"
   },
   "publishConfig": {
     "access": "public"

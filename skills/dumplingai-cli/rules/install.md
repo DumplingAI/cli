@@ -3,7 +3,7 @@
 ## Quick Start (no install required)
 
 ```bash
-npx -y @dumplingai/cli init
+npx -y dumplingai-cli init
 ```
 
 This runs the CLI directly via npx and walks you through authentication.
@@ -12,13 +12,13 @@ This runs the CLI directly via npx and walks you through authentication.
 
 ```bash
 # npm
-npm install -g @dumplingai/cli
+npm install -g dumplingai-cli
 
 # pnpm
-pnpm add -g @dumplingai/cli
+pnpm add -g dumplingai-cli
 
 # yarn
-yarn global add @dumplingai/cli
+yarn global add dumplingai-cli
 ```
 
 Then authenticate:
