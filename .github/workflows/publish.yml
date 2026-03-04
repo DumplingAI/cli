@@ -18,7 +18,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          # npm trusted publishing requires npm >= 11.5.1 (Node >= 22.14.0).
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - uses: pnpm/action-setup@v4
@@ -37,7 +38,9 @@ jobs:
       - name: Build
         run: pnpm --filter dumplingai-cli build
 
+      - name: Show npm version
+        run: npm --version
+
       - name: Publish
-        run: pnpm --filter dumplingai-cli publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/cli
+        run: npm publish --provenance --access public
