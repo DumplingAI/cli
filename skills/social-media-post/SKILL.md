@@ -1,3 +1,8 @@
+---
+name: social-media-post
+description: Create platform-specific social media posts from a niche, topic, campaign idea, or source material using research, source extraction, and tailored writing for channels like X, LinkedIn, Instagram, TikTok, or YouTube Shorts. Use when the user wants social content, post variants, threads, captions, or channel-specific copy.
+---
+
 # Social Media Post
 
 ## Overview

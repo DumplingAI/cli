@@ -1,3 +1,8 @@
+---
+name: dumplingai-cli
+description: Use when working with the DumplingAI CLI to scrape webpages, search the web, or fetch YouTube and TikTok transcripts from the terminal. Trigger for tasks involving `dumplingai scrape`, `dumplingai search`, `dumplingai transcript`, or agent workflows that need DumplingAI CLI usage guidance.
+---
+
 # DumplingAI CLI Skill
 
 ## Overview

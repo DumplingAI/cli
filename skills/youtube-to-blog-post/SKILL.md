@@ -1,3 +1,8 @@
+---
+name: youtube-to-blog-post
+description: Turn a YouTube video into a structured blog post using transcript-first research and optional supporting-source verification. Use when the user wants to repurpose YouTube content into an article, blog post, outline, or written summary based on a video transcript.
+---
+
 # YouTube to Blog Post
 
 ## Overview

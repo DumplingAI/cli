@@ -12,7 +12,12 @@ const SKILLS: SkillAsset[] = [
   {
     slug: 'dumplingai-cli',
     files: {
-      'SKILL.md': `# DumplingAI CLI Skill
+      'SKILL.md': `---
+name: dumplingai-cli
+description: Use when working with the DumplingAI CLI to scrape webpages, search the web, or fetch YouTube and TikTok transcripts from the terminal. Trigger for tasks involving dumplingai scrape, dumplingai search, dumplingai transcript, or agent workflows that need DumplingAI CLI usage guidance.
+---
+
+# DumplingAI CLI Skill
 
 ## Allowed Commands
 
@@ -83,7 +88,12 @@ export PATH="$(npm config get prefix)/bin:$PATH"
   {
     slug: 'youtube-to-blog-post',
     files: {
-      'SKILL.md': `# YouTube to Blog Post
+      'SKILL.md': `---
+name: youtube-to-blog-post
+description: Turn a YouTube video into a structured blog post using transcript-first research and optional supporting-source verification. Use when the user wants to repurpose YouTube content into an article, blog post, outline, or written summary based on a video transcript.
+---
+
+# YouTube to Blog Post
 
 ## Overview
 
@@ -141,7 +151,12 @@ sed -n '80,180p' .dumplingai/transcript.txt
   {
     slug: 'social-media-post',
     files: {
-      'SKILL.md': `# Social Media Post
+      'SKILL.md': `---
+name: social-media-post
+description: Create platform-specific social media posts from a niche, topic, campaign idea, or source material using research, source extraction, and tailored writing for channels like X, LinkedIn, Instagram, TikTok, or YouTube Shorts. Use when the user wants social content, post variants, threads, captions, or channel-specific copy.
+---
+
+# Social Media Post
 
 ## Overview
 
