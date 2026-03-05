@@ -22,6 +22,9 @@ dumplingai login --api-key sk_yourkey
 Packaged skills from this repo can be installed with the `skills` CLI:
 
 ```bash
+# Install
+npx skills add dumplingai/cli
+
 # List available skills in this repo
 npx skills add dumplingai/cli --list
 

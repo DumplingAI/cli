@@ -12,6 +12,24 @@ npx -y dumplingai-cli init
 npm install -g dumplingai-cli
 ```
 
+## Skill Installation
+
+Install packaged skills from this repo with the `skills` CLI:
+
+```bash
+# Install
+npx skills add dumplingai/cli
+
+# List available skills in this repo
+npx skills add dumplingai/cli --list
+
+# Install all skills from this repo
+npx skills add dumplingai/cli --all
+
+# Install specific skills from this repo
+npx skills add dumplingai/cli --skill dumplingai-cli --skill youtube-to-blog-post --skill social-media-post
+```
+
 ## Quick Start
 
 ```bash
@@ -30,7 +48,6 @@ dumplingai scrape https://example.com
 - `dumplingai search <query>`
 - `dumplingai transcript <url>`
 - `dumplingai env pull`
-- `dumplingai setup skill`
 - `dumplingai version`
 
 ## Links
