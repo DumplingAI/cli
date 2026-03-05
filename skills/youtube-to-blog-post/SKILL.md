@@ -37,9 +37,9 @@ dumplingai scrape <url>               # Read specific references in depth
 Always write intermediate artifacts to `.dumplingai/`:
 
 ```bash
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 dumplingai search "company or concept from the video" -o .dumplingai/search.md
-dumplingai scrape https://example.com/reference -o .dumplingai/reference.md
+dumplingai scrape 'https://example.com/reference' -o .dumplingai/reference.md
 ```
 
 Then read incrementally:
@@ -62,14 +62,15 @@ sed -n '80,180p' .dumplingai/transcript.txt
 
 ```bash
 # Step 1: fetch the transcript
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 
 # Step 2: verify referenced claims if needed
 dumplingai search "site:docs.example.com feature mentioned in the video" -o .dumplingai/search.md
 
 # Step 3: scrape the best supporting source
-dumplingai scrape https://docs.example.com/feature -o .dumplingai/feature.md
+dumplingai scrape 'https://docs.example.com/feature' -o .dumplingai/feature.md
 ```
+Quote URLs in shell examples by default so special characters like `?` are passed through to the CLI.
 
 ## Safety
 

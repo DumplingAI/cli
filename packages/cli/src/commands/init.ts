@@ -78,7 +78,7 @@ export function makeInitCommand(): Command {
         await runSkillSetup();
       }
 
-      printStatus('\nDone! Try: dumplingai scrape https://example.com');
+      printStatus("\nDone! Try: dumplingai scrape 'https://example.com'");
     });
 }
 

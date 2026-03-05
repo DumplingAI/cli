@@ -44,8 +44,8 @@ Write research artifacts to `.dumplingai/` before drafting:
 
 ```bash
 dumplingai search "AI sales assistant pain points for SMB founders" -o .dumplingai/search.md
-dumplingai scrape https://example.com/product-page -o .dumplingai/product.md
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai scrape 'https://example.com/product-page' -o .dumplingai/product.md
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 ```
 
 Then read incrementally:
@@ -73,11 +73,12 @@ sed -n '1,120p' .dumplingai/product.md
 dumplingai search "B2B SaaS onboarding mistakes founder audience" -o .dumplingai/search.md
 
 # Pull a primary source if available
-dumplingai scrape https://example.com/blog-post -o .dumplingai/source.md
+dumplingai scrape 'https://example.com/blog-post' -o .dumplingai/source.md
 
 # Optional: use a video as source material
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 ```
+Quote URLs in shell examples by default so special characters like `?` do not get expanded before `dumplingai` runs.
 
 ## Safety
 

@@ -34,7 +34,13 @@ npx skills add dumplingai/cli --skill dumplingai-cli --skill youtube-to-blog-pos
 
 ```bash
 dumplingai login --api-key sk_yourkey
-dumplingai scrape https://example.com
+dumplingai scrape 'https://example.com'
+```
+
+Quote URLs in shell examples by default so special characters like `?` are passed through safely.
+
+```bash
+dumplingai transcript 'https://youtube.com/watch?v=dQw4w9WgXcQ'
 ```
 
 ## Commands

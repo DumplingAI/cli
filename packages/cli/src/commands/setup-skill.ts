@@ -36,17 +36,19 @@ description: Use when working with the DumplingAI CLI to scrape webpages, search
 
 \`\`\`bash
 # Scrape a webpage
-dumplingai scrape https://example.com -o .dumplingai/page.md
+dumplingai scrape 'https://example.com' -o .dumplingai/page.md
 
 # Web search
 dumplingai search "TypeScript best practices 2024" --json
 
 # Get a YouTube transcript
-dumplingai transcript https://youtube.com/watch?v=dQw4w9WgXcQ -o .dumplingai/transcript.txt
+dumplingai transcript 'https://youtube.com/watch?v=dQw4w9WgXcQ' -o .dumplingai/transcript.txt
 
 # URL shortcut (auto-forwards to scrape)
-dumplingai https://example.com
+dumplingai 'https://example.com'
 \`\`\`
+
+Quote URLs in shell examples by default so special characters like \`?\` are passed through unchanged.
 `,
       'rules/safety.md': `# Safety Rules
 
@@ -118,9 +120,9 @@ Turn a YouTube video into a structured blog post using the DumplingAI CLI.
 Always write intermediate artifacts to \`.dumplingai/\`:
 
 \`\`\`bash
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 dumplingai search "concept referenced in the video" -o .dumplingai/search.md
-dumplingai scrape https://example.com/reference -o .dumplingai/reference.md
+dumplingai scrape 'https://example.com/reference' -o .dumplingai/reference.md
 \`\`\`
 
 Then read incrementally:
@@ -137,6 +139,8 @@ sed -n '80,180p' .dumplingai/transcript.txt
 - Remove filler, repetition, sponsor reads, and off-topic asides
 - Convert spoken language into tighter written prose
 - If the transcript is noisy or incomplete, produce an outline first and flag uncertainty
+
+Quote URLs in shell examples by default so special characters like \`?\` are passed through to the CLI.
 `,
       'rules/safety.md': `# Safety Rules
 
@@ -183,8 +187,8 @@ Write research artifacts to \`.dumplingai/\` before drafting:
 
 \`\`\`bash
 dumplingai search "AI sales assistant pain points for SMB founders" -o .dumplingai/search.md
-dumplingai scrape https://example.com/product-page -o .dumplingai/product.md
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai scrape 'https://example.com/product-page' -o .dumplingai/product.md
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 \`\`\`
 
 Then read incrementally:
@@ -204,6 +208,8 @@ sed -n '1,120p' .dumplingai/product.md
 - Avoid hashtags unless the user asks for them
 - Produce multiple variants when tone is ambiguous
 - Default to one version per requested platform, not one generic post
+
+Quote URLs in shell examples by default so special characters like \`?\` do not get expanded before \`dumplingai\` runs.
 `,
       'rules/safety.md': `# Safety Rules
 

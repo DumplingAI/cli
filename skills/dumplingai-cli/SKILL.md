@@ -29,9 +29,9 @@ When gathering web content, prefer in this order:
 Always write large outputs to `.dumplingai/` to keep context clean:
 
 ```bash
-dumplingai scrape https://example.com -o .dumplingai/page.md
+dumplingai scrape 'https://example.com' -o .dumplingai/page.md
 dumplingai search "TypeScript 5.5 features" -o .dumplingai/search.md
-dumplingai transcript https://youtube.com/watch?v=ID -o .dumplingai/transcript.txt
+dumplingai transcript 'https://youtube.com/watch?v=ID' -o .dumplingai/transcript.txt
 ```
 
 Then read incrementally:
@@ -44,20 +44,21 @@ rg "function" .dumplingai/page.md
 
 ```bash
 # Quick scrape (markdown, default)
-dumplingai scrape https://docs.example.com/guide
+dumplingai scrape 'https://docs.example.com/guide'
 
 # HTML scrape
-dumplingai scrape https://example.com --format html -o .dumplingai/raw.html
+dumplingai scrape 'https://example.com' --format html -o .dumplingai/raw.html
 
 # Search and scrape top results
 dumplingai search "best TypeScript ORMs 2024" --scrape --json
 
 # Get transcript in Spanish
-dumplingai transcript https://youtube.com/watch?v=ID --lang es
+dumplingai transcript 'https://youtube.com/watch?v=ID' --lang es
 
 # URL shortcut (no subcommand needed)
-dumplingai https://example.com/article
+dumplingai 'https://example.com/article'
 ```
+Quote URLs in shell examples by default so special characters like `?` are passed through unchanged.
 
 ## Safety
 

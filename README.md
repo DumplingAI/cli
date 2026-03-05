@@ -60,13 +60,13 @@ Additional packaged skills live under `skills/`, including `skills/youtube-to-bl
 
 ```bash
 # Scrape a webpage (default: markdown)
-dumplingai scrape https://docs.example.com
+dumplingai scrape 'https://docs.example.com'
 
 # Scrape and save to file
-dumplingai scrape https://example.com/article -o article.md
+dumplingai scrape 'https://example.com/article' -o article.md
 
 # URL shortcut — no subcommand needed
-dumplingai https://example.com
+dumplingai 'https://example.com'
 
 # Web search
 dumplingai search "TypeScript 5.5 new features"
@@ -75,11 +75,12 @@ dumplingai search "TypeScript 5.5 new features"
 dumplingai search "best React state management" --scrape
 
 # Get YouTube transcript
-dumplingai transcript https://youtube.com/watch?v=dQw4w9WgXcQ
+dumplingai transcript 'https://youtube.com/watch?v=dQw4w9WgXcQ'
 
 # Output as JSON
-dumplingai scrape https://example.com --json
+dumplingai scrape 'https://example.com' --json
 ```
+Quote URLs in shell examples by default. This avoids `zsh` globbing issues with characters like `?` and keeps commands copy-paste safe.
 
 ---
 
