@@ -28,9 +28,6 @@ npx skills add dumplingai/cli
 # List available skills in this repo
 npx skills add dumplingai/cli --list
 
-# Install all skills from this repo
-npx skills add dumplingai/cli --all
-
 # Install specific skills from this repo
 npx skills add dumplingai/cli --skill dumplingai-cli --skill youtube-to-blog-post --skill social-media-post
 ```
