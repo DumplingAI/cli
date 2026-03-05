@@ -17,6 +17,28 @@ dumplingai login --api-key sk_yourkey
 
 ---
 
+## Skill Installation
+
+Packaged skills from this repo can be installed with the `skills` CLI:
+
+```bash
+# List available skills in this repo
+npx skills add dumplingai/cli --list
+
+# Install all skills from this repo
+npx skills add dumplingai/cli --all
+
+# Install specific skills from this repo
+npx skills add dumplingai/cli --skill dumplingai-cli --skill youtube-to-blog-post --skill social-media-post
+```
+
+By default, `npx skills add` installs into the current project. Use `-g` to install globally instead.
+
+See `skills/dumplingai-cli/SKILL.md` for usage guidelines and escalation patterns.
+Additional packaged skills live under `skills/`, including `skills/youtube-to-blog-post/SKILL.md` and `skills/social-media-post/SKILL.md`.
+
+---
+
 ## Commands
 
 | Command | Description |
@@ -30,7 +52,6 @@ dumplingai login --api-key sk_yourkey
 | `dumplingai search <query>` | Web search |
 | `dumplingai transcript <url>` | Get YouTube/TikTok transcript |
 | `dumplingai env pull` | Write API key to `.env` file |
-| `dumplingai setup skill` | Install agent skill integrations |
 | `dumplingai version` | Print version |
 
 ---
@@ -79,20 +100,6 @@ dumplingai env pull
 ```
 
 Credentials are stored securely in your system keychain. On systems without a keychain, a file at `~/.config/dumplingai-cli/credentials.json` (mode 600) is used as fallback.
-
----
-
-## Agent Integration
-
-Install the CLI skill into your agent environment:
-
-```bash
-dumplingai setup skill
-```
-
-This installs skill files into detected environments (Claude Code, Cursor, Codex).
-
-See `skills/dumplingai-cli/SKILL.md` for usage guidelines and escalation patterns.
 
 ---
 
