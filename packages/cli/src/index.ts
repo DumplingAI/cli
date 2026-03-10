@@ -12,14 +12,11 @@ import { makeViewConfigCommand } from './commands/view-config.js';
 import { makeVersionCommand } from './commands/version.js';
 import { makeEnvPullCommand } from './commands/env-pull.js';
 import { makeSetupSkillCommand } from './commands/setup-skill.js';
-import { makeScrapeCommand } from './commands/scrape.js';
-import { makeSearchCommand } from './commands/search.js';
-import { makeTranscriptCommand } from './commands/transcript.js';
-import {
-  getFirstSearchPositionalArg,
-  isKnownSearchSubcommand,
-  isKnownSubcommand,
-} from './utils/argv-shortcuts.js';
+import { makeCatalogCommand } from './commands/catalog.js';
+import { makeRunCommand } from './commands/run.js';
+import { makeBalanceCommand } from './commands/balance.js';
+import { makeUsageCommand } from './commands/usage.js';
+import { makeTransactionsCommand } from './commands/transactions.js';
 
 function getCliVersion(): string {
   try {
@@ -37,7 +34,7 @@ async function main(): Promise<void> {
 
   program
     .name('dumplingai')
-    .description('DumplingAI CLI — scrape, search, and extract content from the terminal')
+    .description('DumplingAI CLI — discover and execute Unified API Platform capabilities')
     .version(getCliVersion(), '-V, --version', 'Print version')
     .allowUnknownOption(false);
 
@@ -50,33 +47,11 @@ async function main(): Promise<void> {
   program.addCommand(makeVersionCommand());
   program.addCommand(makeEnvPullCommand());
   program.addCommand(makeSetupSkillCommand());
-  program.addCommand(makeScrapeCommand());
-  program.addCommand(makeSearchCommand());
-  program.addCommand(makeTranscriptCommand());
-
-  // URL shortcut: if the first real arg looks like a URL and isn't a known subcommand,
-  // forward to the scrape command
-  const args = process.argv.slice(2);
-  const firstArg = args[0];
-
-  if (
-    firstArg &&
-    (firstArg.startsWith('http://') || firstArg.startsWith('https://')) &&
-    !isKnownSubcommand(firstArg)
-  ) {
-    // Rewrite args to `scrape <url> [rest...]`
-    process.argv.splice(2, 0, 'scrape');
-  }
-
-  // Support `dumplingai search <query>` by forwarding to `search web <query>`.
-  const searchPositionalArg = firstArg === 'search' ? getFirstSearchPositionalArg(args) : undefined;
-  if (
-    firstArg === 'search' &&
-    searchPositionalArg &&
-    !isKnownSearchSubcommand(searchPositionalArg)
-  ) {
-    process.argv.splice(3, 0, 'web');
-  }
+  program.addCommand(makeCatalogCommand());
+  program.addCommand(makeRunCommand());
+  program.addCommand(makeBalanceCommand());
+  program.addCommand(makeUsageCommand());
+  program.addCommand(makeTransactionsCommand());
 
   await program.parseAsync(process.argv);
 }

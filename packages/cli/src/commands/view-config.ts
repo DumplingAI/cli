@@ -6,8 +6,7 @@ import { printResult } from '../utils/output.js';
 export function makeViewConfigCommand(): Command {
   return new Command('view-config')
     .description('Display current CLI configuration (read-only)')
-    .option('--json', 'Output as JSON')
-    .action(async (opts: { json?: boolean }) => {
+    .action(async () => {
       const configPath = getConfigPath();
       const storedConfig = getConfig();
       const apiUrl = getApiUrl();
@@ -32,6 +31,6 @@ export function makeViewConfigCommand(): Command {
         storedConfig,
       };
 
-      printResult(config, { json: opts.json });
+      printResult(config);
     });
 }

@@ -1,7 +1,7 @@
 {
   "name": "dumplingai-cli",
-  "version": "0.1.5",
-  "description": "DumplingAI CLI — scrape, search, and extract from the terminal",
+  "version": "0.1.6",
+  "description": "DumplingAI CLI — discover and execute Unified API Platform capabilities from the terminal",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -18,11 +18,11 @@
   "keywords": [
     "dumplingai",
     "cli",
-    "scrape",
-    "web-scraping",
-    "search",
     "ai",
-    "agent"
+    "agent",
+    "unified-api",
+    "capabilities",
+    "providers"
   ],
   "repository": {
     "type": "git",

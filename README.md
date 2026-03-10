@@ -1,6 +1,6 @@
 # DumplingAI CLI
 
-Scrape, search, and extract web content from the terminal — powered by the [DumplingAI API](https://www.dumplingai.com).
+Use DumplingAI's Unified API Platform from the terminal. The CLI is built for agent and developer workflows around `/api/v2`: discover capabilities, inspect provider endpoints, execute requests, and inspect usage.
 
 ## Quick Start
 
@@ -13,112 +13,62 @@ npm install -g dumplingai-cli
 dumplingai login --api-key sk_yourkey
 ```
 
-**Get your API key:** https://app.dumplingai.com/settings/api-keys
+Get your API key at https://app.dumplingai.com/settings/api-keys
 
----
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `dumplingai init` | Authenticate and optionally install bundled agent skills |
+| `dumplingai login --api-key <key>` | Save API credentials |
+| `dumplingai logout` | Remove stored credentials |
+| `dumplingai status` | Show CLI version, auth status, and v2 balance context |
+| `dumplingai view-config` | Display current configuration |
+| `dumplingai catalog search <prompt>` | Search v2 capabilities, providers, and endpoints |
+| `dumplingai catalog details <type> <id>` | Inspect a specific catalog object |
+| `dumplingai run <type> <id> --input '<json>'` | Execute a capability or endpoint |
+| `dumplingai balance` | Show balance and budget information |
+| `dumplingai usage` | Show request usage logs |
+| `dumplingai transactions` | Show credit transaction history |
+| `dumplingai env pull` | Write API key to `.env` file |
+| `dumplingai version` | Print version |
+
+## Usage Examples
+
+```bash
+# Discover available capabilities
+dumplingai catalog search "google search capability"
+
+# Inspect a capability before running it
+dumplingai catalog details capability google_search
+
+# Execute a capability with inline JSON input
+dumplingai run capability google_search --input '{"query":"latest TypeScript release"}'
+
+# Execute an endpoint with JSON from disk
+dumplingai run endpoint firecrawl.scrape --input-file payload.json
+
+# Inspect account data
+dumplingai balance
+dumplingai usage --object-type capability --limit 20
+```
+
+Redirect large JSON results into `.dumplingai/` when you want to inspect them incrementally:
+
+```bash
+dumplingai run capability scrape_page --input '{"url":"https://example.com"}' > .dumplingai/page.json
+head -40 .dumplingai/page.json
+```
 
 ## Skill Installation
 
 Packaged skills from this repo can be installed with the `skills` CLI:
 
 ```bash
-# Install
 npx skills add dumplingai/cli
-
-# List available skills in this repo
 npx skills add dumplingai/cli --list
-
-# Install specific skills from this repo
-npx skills add dumplingai/cli --skill dumplingai-cli --skill youtube-to-blog-post --skill social-media-post
+npx skills add dumplingai/cli --skill discovering-dumplingai-apis --skill dumplingai-cli --skill youtube-to-blog-post --skill social-media-post
 ```
-
-By default, `npx skills add` installs into the current project. Use `-g` to install globally instead.
-
-See `skills/dumplingai-cli/SKILL.md` for usage guidelines and escalation patterns.
-Additional packaged skills live under `skills/`, including `skills/youtube-to-blog-post/SKILL.md` and `skills/social-media-post/SKILL.md`.
-
----
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `dumplingai init` | Interactive setup: authenticate + install agent skills |
-| `dumplingai login --api-key <key>` | Save API credentials |
-| `dumplingai logout` | Remove stored credentials |
-| `dumplingai status` | Show auth status and CLI info |
-| `dumplingai view-config` | Display current configuration |
-| `dumplingai scrape <url>` | Scrape a webpage |
-| `dumplingai search <query>` | Web search |
-| `dumplingai transcript <url>` | Get YouTube/TikTok transcript |
-| `dumplingai env pull` | Write API key to `.env` file |
-| `dumplingai version` | Print version |
-
----
-
-## Usage Examples
-
-```bash
-# Scrape a webpage (default: markdown)
-dumplingai scrape 'https://docs.example.com'
-
-# Scrape and save to file
-dumplingai scrape 'https://example.com/article' -o article.md
-
-# URL shortcut — no subcommand needed
-dumplingai 'https://example.com'
-
-# Web search
-dumplingai search "TypeScript 5.5 new features"
-
-# Search and scrape top results
-dumplingai search "best React state management" --scrape
-
-# Get YouTube transcript
-dumplingai transcript 'https://youtube.com/watch?v=dQw4w9WgXcQ'
-
-# Output as JSON
-dumplingai scrape 'https://example.com' --json
-```
-Quote URLs in shell examples by default. This avoids `zsh` globbing issues with characters like `?` and keeps commands copy-paste safe.
-
----
-
-## Authentication
-
-```bash
-# Login with API key
-dumplingai login --api-key sk_yourkey
-
-# Or use environment variable
-export DUMPLINGAI_API_KEY=sk_yourkey
-
-# Check auth status
-dumplingai status
-
-# Write to .env file
-dumplingai env pull
-```
-
-Credentials are stored securely in your system keychain. On systems without a keychain, a file at `~/.config/dumplingai-cli/credentials.json` (mode 600) is used as fallback.
-
----
-
-## Configuration
-
-| Source | Priority |
-|--------|----------|
-| `--api-key` flag | Highest |
-| `DUMPLINGAI_API_KEY` env var | 2nd |
-| Credential store (keychain / file) | 3rd |
-| Config file defaults | Lowest |
-
-Config file location:
-- macOS: `~/Library/Application Support/dumplingai-cli/config.json`
-- Linux: `~/.config/dumplingai-cli/config.json`
-- Windows: `%AppData%/dumplingai-cli/config.json`
-
----
 
 ## Development
 
@@ -126,5 +76,7 @@ Config file location:
 pnpm install
 pnpm --filter dumplingai-cli build
 pnpm --filter dumplingai-cli test
-node packages/cli/dist/index.js --help
+pnpm --filter dumplingai-cli typecheck
 ```
+
+Local agent/runtime folders such as `.claude/`, `.agents/`, `.cursor/`, `.codex/`, and `.dumplingai/` are intentionally ignored. Keep checked-in skill sources under `skills/`.

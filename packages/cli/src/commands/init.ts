@@ -7,7 +7,7 @@ import { makeSetupSkillCommand } from './setup-skill.js';
 
 export function makeInitCommand(): Command {
   return new Command('init')
-    .description('Initialize the CLI: authenticate and optionally set up agent skills')
+    .description('Initialize the v2 CLI: authenticate and optionally set up agent skills')
     .option('--api-key <key>', 'API key (or set DUMPLINGAI_API_KEY env var)')
     .option('--skip-skill', 'Skip agent skill installation')
     .action(async (opts: { apiKey?: string; skipSkill?: boolean }) => {
@@ -65,7 +65,7 @@ export function makeInitCommand(): Command {
         if (err instanceof ApiError && err.statusCode === 401) {
           exitWithError('API key is invalid. Check your key at https://app.dumplingai.com/settings/api-keys');
         }
-        printStatus('Warning: could not validate key (network issue). Saving anyway.');
+        printStatus('Warning: could not validate key against /api/v2/balance. Saving anyway.');
       }
 
       // 4. Save credential
@@ -78,7 +78,7 @@ export function makeInitCommand(): Command {
         await runSkillSetup();
       }
 
-      printStatus("\nDone! Try: dumplingai scrape 'https://example.com'");
+      printStatus('\nDone! Try: dumplingai catalog search "google search"');
     });
 }
 

@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import { loadCredential, maskSecret } from '../utils/auth.js';
 import { DumplingAIClient, ApiError } from '../client/api.js';
 import { getApiUrl } from '../utils/config.js';
-import { printResult, printError } from '../utils/output.js';
+import { printResult } from '../utils/output.js';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -20,9 +20,8 @@ function getCliVersion(): string {
 
 export function makeStatusCommand(): Command {
   return new Command('status')
-    .description('Show CLI version, authentication status, and API URL')
-    .option('--json', 'Output as JSON')
-    .action(async (opts: { json?: boolean }) => {
+    .description('Show CLI version, authentication status, and v2 balance context')
+    .action(async () => {
       const version = getCliVersion();
       const apiUrl = getApiUrl();
       const storedKey = await loadCredential();
@@ -49,21 +48,17 @@ export function makeStatusCommand(): Command {
         status['maskedKey'] = maskSecret(apiKey);
         const client = new DumplingAIClient({ apiKey, baseUrl: apiUrl });
         try {
-          const result = await client.getStatus();
-          if (result.plan) status['plan'] = result.plan;
-          if (result.userId) status['userId'] = result.userId;
-          if (result.org) status['org'] = result.org;
+          status['balance'] = await client.getBalance();
         } catch (err) {
           if (err instanceof ApiError && err.statusCode === 401) {
             status['authenticated'] = false;
             status['authError'] = 'API key is invalid';
+          } else {
+            status['authError'] = (err as Error).message;
           }
-          // Other errors: don't fail status check
         }
-      } else {
-        printError('Not authenticated. Run `dumplingai login --api-key <key>`.');
       }
 
-      printResult(status, { json: opts.json });
+      printResult(status);
     });
 }

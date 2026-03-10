@@ -1,188 +1,44 @@
 const DEFAULT_BASE_URL = 'https://app.dumplingai.com';
 const DEFAULT_TIMEOUT_MS = 30_000;
-const REQUEST_SOURCE = 'API' as const;
+const REQUEST_SOURCE = 'CLI';
 
-// ── Types ──────────────────────────────────────────────────────────────────
+export type CatalogObjectType = 'capability' | 'provider' | 'endpoint';
+export type RunObjectType = Exclude<CatalogObjectType, 'provider'>;
 
-export interface ScrapeOptions {
-  format?: 'markdown' | 'html' | 'screenshot';
-  cleaned?: boolean;
-  renderJs?: boolean;
+export interface CatalogSearchOptions {
+  limit?: number;
+  type?: CatalogObjectType;
 }
 
-export interface ScrapeResult {
-  title?: string;
-  url?: string;
-  content?: string;
-  metadata?: Record<string, unknown>;
-  [key: string]: unknown;
-}
-
-export interface SearchOptions {
-  country?: string;
-  location?: string;
-  language?: string;
-  dateRange?: 'pastHour' | 'pastDay' | 'pastWeek' | 'pastMonth' | 'pastYear' | 'anyTime';
+export interface UsageOptions {
+  objectType?: CatalogObjectType;
+  status?: string;
+  provider?: string;
+  objectId?: string;
   page?: number;
-  scrapeResults?: boolean;
-  numResultsToScrape?: number;
+  limit?: number;
 }
 
-export interface SearchOrganicResult {
-  title: string;
-  link: string;
-  snippet: string;
-  position: number;
-  date?: string | null;
-  scrapeOutput?: {
-    title?: string;
-    url?: string;
-    content?: string;
-    format?: string;
-    cleaned?: boolean;
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
-
-export interface SearchResult {
-  searchParameters?: Record<string, unknown>;
-  organic?: SearchOrganicResult[];
-  featuredSnippet?: Record<string, unknown>;
-  relatedSearches?: Array<{ query: string }>;
-  [key: string]: unknown;
-}
-
-export interface NewsSearchOptions {
-  country?: string;
-  location?: string;
-  language?: string;
-  dateRange?: 'pastHour' | 'pastDay' | 'pastWeek' | 'pastMonth' | 'pastYear' | 'anyTime';
+export interface TransactionsOptions {
   page?: number;
+  limit?: number;
 }
 
-export interface NewsArticle {
-  title: string;
-  link: string;
-  snippet: string;
-  date: string;
-  source: string;
-  imageUrl?: string | null;
-  position: number;
-}
-
-export interface NewsSearchResult {
-  searchParameters?: Record<string, unknown>;
-  news: NewsArticle[];
-  [key: string]: unknown;
-}
-
-export interface PlacesSearchOptions {
-  country?: string;
-  location?: string;
-  language?: string;
-  page?: number;
-}
-
-export interface PlacesResult {
-  position: number;
-  title: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  website?: string | null;
-  cid: string;
-  rating?: number | null;
-  ratingCount?: number | null;
-  category?: string | null;
-  phoneNumber?: string | null;
-}
-
-export interface PlacesSearchResult {
-  searchParameters?: Record<string, unknown>;
-  places: PlacesResult[];
-  [key: string]: unknown;
-}
-
-export interface MapsSearchOptions {
-  gpsPositionZoom?: string;
-  placeId?: string;
-  cid?: string;
-  language?: string;
-  page?: number;
-}
-
-export interface MapsPlaceResult {
-  position: number;
-  title: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  type?: string | null;
-  types?: string[];
-  website?: string | null;
-  cid: string;
-  fid?: string | null;
-  placeId?: string | null;
-  [key: string]: unknown;
-}
-
-export interface MapsSearchResult {
-  searchParameters?: Record<string, unknown>;
-  places: MapsPlaceResult[];
-  [key: string]: unknown;
-}
-
-export interface GoogleReviewsOptions {
-  cid?: string;
-  placeId?: string;
-  reviews?: number;
-  language?: string;
-  location?: string;
-  sortBy?: 'relevant' | 'newest' | 'highest_rating' | 'lowest_rating';
-}
-
-export interface GoogleReviewsResult {
-  [key: string]: unknown;
-}
-
-export interface AutocompleteOptions {
-  location?: string;
-  country?: string;
-  language?: string;
-}
-
-export interface AutocompleteResult {
-  searchParameters?: Record<string, unknown>;
-  suggestions: Array<{ value: string }>;
-  [key: string]: unknown;
-}
-
-export interface TranscriptOptions {
-  preferredLanguage?: string;
-  includeTimestamps?: boolean;
-  chunkSize?: number;
-}
-
-export interface TranscriptResult {
-  transcript?: string | Array<{ text: string; start?: number; duration?: number }>;
-  transcriptLanguage?: string;
-  [key: string]: unknown;
+export interface RunOptions {
+  input: Record<string, unknown>;
+  provider?: string;
+  includeNative?: boolean;
 }
 
 export interface ValidateKeyResult {
   authenticated: boolean;
-  keyName?: string;
-  [key: string]: unknown;
 }
 
-export interface StatusResult {
-  authenticated: boolean;
-  keyName?: string;
-  [key: string]: unknown;
+export interface RequestOptions {
+  body?: Record<string, unknown>;
+  method?: 'GET' | 'POST';
+  query?: Record<string, string | number | undefined>;
 }
-
-// ── Client ─────────────────────────────────────────────────────────────────
 
 export class DumplingAIClient {
   private readonly baseUrl: string;
@@ -195,9 +51,20 @@ export class DumplingAIClient {
     this.timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   }
 
-  private async request<T>(endpoint: string, body: Record<string, unknown>): Promise<T> {
-    const url = `${this.baseUrl}${endpoint}`;
-    const payload = { ...body, requestSource: REQUEST_SOURCE };
+  private async request<T>(endpoint: string, opts: RequestOptions = {}): Promise<T> {
+    const url = buildUrl(`${this.baseUrl}${endpoint}`, {
+      ...opts.query,
+      ...(opts.method === 'GET' || (!opts.method && !opts.body) ? { requestSource: REQUEST_SOURCE } : {}),
+    });
+    const method = opts.method ?? 'POST';
+    const body = opts.body ? { ...opts.body, requestSource: REQUEST_SOURCE } : undefined;
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${this.apiKey}`,
+    };
+
+    if (body) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     let lastError: Error | undefined;
 
@@ -207,37 +74,29 @@ export class DumplingAIClient {
 
       try {
         const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.apiKey}`,
-          },
-          body: JSON.stringify(payload),
+          method,
+          headers,
+          body: body ? JSON.stringify(body) : undefined,
           signal: controller.signal,
         });
 
         clearTimeout(timer);
 
         if (!res.ok) {
-          let message = `HTTP ${res.status} ${res.statusText}`;
-          try {
-            const err = (await res.json()) as { error?: string };
-            if (err.error) message = err.error;
-          } catch {
-            // ignore json parse error
-          }
+          const message = await getErrorMessage(res);
 
           if (res.status === 401) {
-            throw new ApiError('Invalid or missing API key. Run `dumplingai login` to authenticate.', 401);
-          }
-          if (res.status === 400) {
-            throw new ApiError(message, 400);
+            throw new ApiError(
+              'Invalid or missing API key. Run `dumplingai login` to authenticate.',
+              401,
+            );
           }
           if (res.status >= 500 && attempt === 0) {
             lastError = new ApiError(message, res.status);
             await sleep(1000);
             continue;
           }
+
           throw new ApiError(message, res.status);
         }
 
@@ -260,98 +119,91 @@ export class DumplingAIClient {
     throw lastError ?? new ApiError('Request failed', 500);
   }
 
-  async scrape(url: string, opts: ScrapeOptions = {}): Promise<ScrapeResult> {
-    return this.request<ScrapeResult>('/api/v1/scrape', {
-      url,
-      format: opts.format ?? 'markdown',
-      cleaned: opts.cleaned ?? true,
-      renderJs: opts.renderJs ?? true,
+  async searchCatalog(
+    prompt: string,
+    opts: CatalogSearchOptions = {},
+  ): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/v2/search', {
+      body: {
+        prompt,
+        ...(opts.limit !== undefined ? { limit: opts.limit } : {}),
+        ...(opts.type ? { type: opts.type } : {}),
+      },
     });
   }
 
-  async search(query: string, opts: SearchOptions = {}): Promise<SearchResult> {
-    return this.request<SearchResult>('/api/v1/search', {
-      query,
-      ...opts,
+  async getCatalogDetails(
+    type: CatalogObjectType,
+    id: string,
+  ): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/v2/details', {
+      body: { id, type },
     });
   }
 
-  async searchNews(query: string, opts: NewsSearchOptions = {}): Promise<NewsSearchResult> {
-    return this.request<NewsSearchResult>('/api/v1/search-news', { query, ...opts });
-  }
+  async run(
+    type: RunObjectType,
+    id: string,
+    opts: RunOptions,
+  ): Promise<Record<string, unknown>> {
+    const body: Record<string, unknown> = {
+      type,
+      id,
+      input: opts.input,
+    };
 
-  async searchPlaces(query: string, opts: PlacesSearchOptions = {}): Promise<PlacesSearchResult> {
-    return this.request<PlacesSearchResult>('/api/v1/search-places', { query, ...opts });
-  }
-
-  async searchMaps(query: string, opts: MapsSearchOptions = {}): Promise<MapsSearchResult> {
-    return this.request<MapsSearchResult>('/api/v1/search-maps', { query, ...opts });
-  }
-
-  async getGoogleReviews(keyword: string, opts: GoogleReviewsOptions = {}): Promise<GoogleReviewsResult> {
-    return this.request<GoogleReviewsResult>('/api/v1/get-google-reviews', { keyword, ...opts });
-  }
-
-  async autocomplete(query: string, opts: AutocompleteOptions = {}): Promise<AutocompleteResult> {
-    return this.request<AutocompleteResult>('/api/v1/get-autocomplete', { query, ...opts });
-  }
-
-  async transcript(url: string, opts: TranscriptOptions = {}): Promise<TranscriptResult> {
-    // Auto-detect platform from URL
-    if (url.includes('tiktok.com')) {
-      return this.request<TranscriptResult>('/api/v1/get-tiktok-transcript', {
-        videoUrl: url,
-        ...opts,
-      });
+    if (opts.provider) {
+      body['provider'] = opts.provider;
     }
-    // Default to YouTube transcript
-    return this.request<TranscriptResult>('/api/v1/get-youtube-transcript', {
-      videoUrl: url,
-      preferredLanguage: opts.preferredLanguage ?? 'en',
-      includeTimestamps: opts.includeTimestamps ?? false,
-      chunkSize: opts.chunkSize,
+    if (opts.includeNative) {
+      body['options'] = { include_native: true };
+    }
+
+    return this.request<Record<string, unknown>>('/api/v2/run', { body });
+  }
+
+  async getBalance(): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/v2/balance', {
+      method: 'GET',
+    });
+  }
+
+  async getUsage(opts: UsageOptions = {}): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/v2/usage', {
+      method: 'GET',
+      query: {
+        objectType: opts.objectType,
+        status: opts.status,
+        provider: opts.provider,
+        objectId: opts.objectId,
+        page: opts.page,
+        limit: opts.limit,
+      },
+    });
+  }
+
+  async getTransactions(opts: TransactionsOptions = {}): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/v2/transactions', {
+      method: 'GET',
+      query: {
+        page: opts.page,
+        limit: opts.limit,
+      },
     });
   }
 
   async validateKey(): Promise<ValidateKeyResult> {
-    const url = `${this.baseUrl}/api/v1/make/api-key-connection`;
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
-
     try {
-      const res = await fetch(url, {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${this.apiKey}` },
-        signal: controller.signal,
-      });
-      clearTimeout(timer);
-
-      if (res.status === 401) {
-        return { authenticated: false };
-      }
-      if (!res.ok) {
-        throw new ApiError(`HTTP ${res.status} ${res.statusText}`, res.status);
-      }
-
-      const data = (await res.json()) as { metadata?: { name?: string } };
-      return { authenticated: true, keyName: data.metadata?.name };
+      await this.getBalance();
+      return { authenticated: true };
     } catch (err) {
-      clearTimeout(timer);
-      if (err instanceof ApiError) throw err;
-      if ((err as Error).name === 'AbortError') {
-        throw new ApiError(`Request timed out after ${this.timeoutMs}ms`, 408);
+      if (err instanceof ApiError && err.statusCode === 401) {
+        return { authenticated: false };
       }
       throw err;
     }
   }
-
-  async getStatus(): Promise<StatusResult> {
-    const result = await this.validateKey();
-    return result;
-  }
 }
-
-// ── Errors ─────────────────────────────────────────────────────────────────
 
 export class ApiError extends Error {
   constructor(
@@ -363,7 +215,39 @@ export class ApiError extends Error {
   }
 }
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+async function getErrorMessage(res: Response): Promise<string> {
+  try {
+    const err = (await res.json()) as {
+      error?: string;
+      code?: string;
+      message?: string;
+    };
+    if (err.error && err.code) {
+      return `${err.error} (${err.code})`;
+    }
+    if (err.error) {
+      return err.error;
+    }
+    if (err.message) {
+      return err.message;
+    }
+  } catch {
+    // Ignore JSON parse errors and fall back to the status text.
+  }
+
+  return `HTTP ${res.status} ${res.statusText}`;
+}
+
+function buildUrl(baseUrl: string, query?: Record<string, string | number | undefined>): string {
+  if (!query) return baseUrl;
+
+  const url = new URL(baseUrl);
+  for (const [key, value] of Object.entries(query)) {
+    if (value === undefined) continue;
+    url.searchParams.set(key, String(value));
+  }
+  return url.toString();
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

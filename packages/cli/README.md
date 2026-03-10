@@ -1,6 +1,6 @@
 # DumplingAI CLI
 
-`dumplingai-cli` is the official DumplingAI command-line tool for scraping pages, searching the web, and fetching video transcripts.
+`dumplingai-cli` is the official command-line tool for DumplingAI's Unified API Platform under `/api/v2`.
 
 ## Install
 
@@ -12,35 +12,12 @@ npx -y dumplingai-cli init
 npm install -g dumplingai-cli
 ```
 
-## Skill Installation
-
-Install packaged skills from this repo with the `skills` CLI:
-
-```bash
-# Install
-npx skills add dumplingai/cli
-
-# List available skills in this repo
-npx skills add dumplingai/cli --list
-
-# Install all skills from this repo
-npx skills add dumplingai/cli --all
-
-# Install specific skills from this repo
-npx skills add dumplingai/cli --skill dumplingai-cli --skill youtube-to-blog-post --skill social-media-post
-```
-
 ## Quick Start
 
 ```bash
 dumplingai login --api-key sk_yourkey
-dumplingai scrape 'https://example.com'
-```
-
-Quote URLs in shell examples by default so special characters like `?` are passed through safely.
-
-```bash
-dumplingai transcript 'https://youtube.com/watch?v=dQw4w9WgXcQ'
+dumplingai catalog search "google search capability"
+dumplingai run capability google_search --input '{"query":"latest TypeScript release"}'
 ```
 
 ## Commands
@@ -50,15 +27,18 @@ dumplingai transcript 'https://youtube.com/watch?v=dQw4w9WgXcQ'
 - `dumplingai logout`
 - `dumplingai status`
 - `dumplingai view-config`
-- `dumplingai scrape <url>`
-- `dumplingai search <query>`
-- `dumplingai transcript <url>`
+- `dumplingai catalog search <prompt>`
+- `dumplingai catalog details <type> <id>`
+- `dumplingai run <type> <id> --input '<json>'`
+- `dumplingai balance`
+- `dumplingai usage`
+- `dumplingai transactions`
 - `dumplingai env pull`
 - `dumplingai version`
 
 ## Links
 
-- Docs and product: https://www.dumplingai.com
+- Docs: https://docs.dumplingai.com/unified-api-platform
 - API keys: https://app.dumplingai.com/settings/api-keys
+- Workbench: https://app.dumplingai.com/workbench
 - Repository: https://github.com/dumplingai/cli
-- Issues: https://github.com/dumplingai/cli/issues
