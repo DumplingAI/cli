@@ -12,7 +12,7 @@ Turn a YouTube video into a structured blog post using DumplingAI v2 capabilitie
 ## Allowed Commands
 
 ```bash
-dumplingai run capability get_youtube_transcript --input '{"url":"https://youtube.com/watch?v=ID"}'
+dumplingai run capability get_youtube_transcript --input '{"videoUrl":"https://youtube.com/watch?v=ID"}'
 dumplingai run capability google_search --input '{"query":"topic from the video"}'
 dumplingai run capability scrape_page --input '{"url":"https://example.com/reference"}'
 ```
@@ -27,7 +27,7 @@ dumplingai run capability scrape_page --input '{"url":"https://example.com/refer
 ## Output Strategy
 
 ```bash
-dumplingai run capability get_youtube_transcript --input '{"url":"https://youtube.com/watch?v=ID"}' > .dumplingai/transcript.json
+dumplingai run capability get_youtube_transcript --input '{"videoUrl":"https://youtube.com/watch?v=ID"}' > .dumplingai/transcript.json
 dumplingai run capability google_search --input '{"query":"company or concept from the video"}' > .dumplingai/search.json
 dumplingai run capability scrape_page --input '{"url":"https://example.com/reference"}' > .dumplingai/reference.json
 ```

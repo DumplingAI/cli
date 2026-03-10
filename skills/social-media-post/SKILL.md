@@ -14,7 +14,7 @@ Turn a niche, topic, or campaign idea into platform-specific social posts using 
 ```bash
 dumplingai run capability google_search --input '{"query":"topic"}'
 dumplingai run capability scrape_page --input '{"url":"https://example.com"}'
-dumplingai run capability get_youtube_transcript --input '{"url":"https://youtube.com/watch?v=ID"}'
+dumplingai run capability get_youtube_transcript --input '{"videoUrl":"https://youtube.com/watch?v=ID"}'
 ```
 
 ## Workflow
@@ -29,7 +29,7 @@ dumplingai run capability get_youtube_transcript --input '{"url":"https://youtub
 ```bash
 dumplingai run capability google_search --input '{"query":"AI sales assistant pain points for SMB founders"}' > .dumplingai/search.json
 dumplingai run capability scrape_page --input '{"url":"https://example.com/product-page"}' > .dumplingai/product.json
-dumplingai run capability get_youtube_transcript --input '{"url":"https://youtube.com/watch?v=ID"}' > .dumplingai/transcript.json
+dumplingai run capability get_youtube_transcript --input '{"videoUrl":"https://youtube.com/watch?v=ID"}' > .dumplingai/transcript.json
 ```
 
 Read incrementally:

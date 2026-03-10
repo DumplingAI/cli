@@ -183,7 +183,7 @@ description: Turn a YouTube video into a structured blog post using transcript-f
 
 ## Allowed Commands
 
-- \`dumplingai run capability get_youtube_transcript --input '{"url":"https://youtube.com/watch?v=ID"}'\`
+- \`dumplingai run capability get_youtube_transcript --input '{"videoUrl":"https://youtube.com/watch?v=ID"}'\`
 - \`dumplingai run capability google_search --input '{"query":"topic from the video"}'\`
 - \`dumplingai run capability scrape_page --input '{"url":"https://example.com/reference"}'\`
 
@@ -216,7 +216,7 @@ description: Create platform-specific social media posts from a niche, topic, ca
 
 - \`dumplingai run capability google_search --input '{"query":"topic"}'\`
 - \`dumplingai run capability scrape_page --input '{"url":"https://example.com"}'\`
-- \`dumplingai run capability get_youtube_transcript --input '{"url":"https://youtube.com/watch?v=ID"}'\`
+- \`dumplingai run capability get_youtube_transcript --input '{"videoUrl":"https://youtube.com/watch?v=ID"}'\`
 
 ## Workflow
 
