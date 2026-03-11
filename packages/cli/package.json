@@ -1,6 +1,6 @@
 {
   "name": "dumplingai-cli",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "DumplingAI CLI — discover and execute Unified API Platform capabilities from the terminal",
   "license": "MIT",
   "type": "module",

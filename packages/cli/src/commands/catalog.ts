@@ -31,23 +31,51 @@ function parseOptionalInt(value?: string, flagName?: string): number | undefined
   return parsed;
 }
 
+function getCatalogResultCount(result: Record<string, unknown>): number | undefined {
+  const candidates = ['items', 'results', 'data', 'matches'];
+
+  for (const key of candidates) {
+    const value = result[key];
+    if (Array.isArray(value)) {
+      return value.length;
+    }
+  }
+
+  return undefined;
+}
+
 export function makeCatalogCommand(): Command {
   const command = new Command('catalog')
     .description('Search and inspect the DumplingAI v2 catalog');
 
   command.addCommand(
     new Command('search')
-      .description('Search capabilities, providers, and endpoints')
-      .argument('<prompt>', 'Prompt describing the API need')
+      .description('Search capabilities, providers, and endpoints with short keyword queries')
+      .argument(
+        '<prompt>',
+        'Short keyword query, e.g. "google search" or "scrape page" rather than a long sentence',
+      )
       .option('--type <type>', 'Filter to capability, provider, or endpoint')
       .option('--limit <n>', 'Maximum number of results to return')
       .option('--api-key <key>', 'Override API key for this request')
       .action(async (prompt: string, opts: { type?: string; limit?: string; apiKey?: string }) => {
+        if (prompt.trim().split(/\s+/).length > 5) {
+          process.stderr.write(
+            'Tip: `catalog search` works best with short keyword queries. If results are weak, shorten the query and remove extra words like "capability" or "endpoint".\n',
+          );
+        }
         const client = await getClient(opts.apiKey);
         const result = await client.searchCatalog(prompt, {
           type: parseCatalogType(opts.type),
           limit: parseOptionalInt(opts.limit, '--limit'),
         });
+
+        if (getCatalogResultCount(result) === 0) {
+          process.stderr.write(
+            'No catalog results found. Retry with a shorter keyword query like "google search", "scrape page", or "keyword ideas", and remove extra words like "capability" or "endpoint".\n',
+          );
+        }
+
         printResult(result);
       }),
   );

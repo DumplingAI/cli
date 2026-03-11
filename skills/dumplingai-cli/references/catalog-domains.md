@@ -12,39 +12,39 @@
 
 Suggested searches:
 
-- `google search capability`
-- `web search endpoint`
-- `search provider endpoint`
+- `google search`
+- `web search`
+- `serper`
 
 ## Scraping and extraction
 
 Suggested searches:
 
-- `scrape page capability`
-- `extract document capability`
-- `crawl website endpoint`
+- `scrape page`
+- `extract document`
+- `crawl website`
 
 ## Transcripts and media
 
 Suggested searches:
 
-- `youtube transcript capability`
-- `tiktok transcript capability`
-- `extract video capability`
+- `youtube transcript`
+- `tiktok transcript`
+- `extract video`
 
 ## SEO and keyword data
 
 Suggested searches:
 
-- `keyword ideas endpoint`
-- `seo provider endpoint`
-- `dataforseo endpoint`
+- `keyword ideas`
+- `seo`
+- `dataforseo`
 
 ## Provider-native endpoints
 
 Suggested searches:
 
-- `firecrawl scrape endpoint`
-- `serper search endpoint`
-- `perplexity search endpoint`
-- `dataforseo keyword ideas endpoint`
+- `firecrawl scrape`
+- `serper search`
+- `perplexity search`
+- `dataforseo keyword ideas`

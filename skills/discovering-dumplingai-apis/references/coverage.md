@@ -11,35 +11,35 @@
 
 ## Search
 
-- `google search capability`
-- `search endpoint`
+- `google search`
+- `search`
 
 ## Scraping
 
-- `scrape page capability`
-- `crawl website endpoint`
+- `scrape page`
+- `crawl website`
 
 ## Transcripts
 
-- `youtube transcript capability`
-- `tiktok transcript capability`
-- `extract video capability`
+- `youtube transcript`
+- `tiktok transcript`
+- `extract video`
 
 ## SEO
 
-- `keyword ideas endpoint`
-- `seo endpoint`
-- `dataforseo endpoint`
+- `keyword ideas`
+- `seo`
+- `dataforseo`
 
 ## Documents and media
 
-- `extract document capability`
-- `ocr capability`
-- `convert to pdf endpoint`
+- `extract document`
+- `ocr`
+- `convert to pdf`
 
 ## Provider-native routing
 
-- `firecrawl endpoint`
-- `serper endpoint`
-- `perplexity endpoint`
-- `dataforseo endpoint`
+- `firecrawl`
+- `serper`
+- `perplexity`
+- `dataforseo`

@@ -1,6 +1,6 @@
 ---
 name: youtube-to-blog-post
-description: Turn a YouTube video into a structured blog post using transcript-first research and optional supporting-source verification. Use when the user wants to repurpose YouTube content into an article, blog post, outline, or written summary based on a video transcript.
+description: When the user wants to turn a YouTube video into a blog post, article, outline, newsletter draft, or transcript-based written summary. Also use when the user mentions repurposing a video, extracting a transcript, rewriting a YouTube talk into a post, or expanding a creator video into long-form content. Use this whenever the workflow should start with transcript extraction and optional source verification through DumplingAI capabilities.
 ---
 
 # YouTube to Blog Post

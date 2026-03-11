@@ -1,6 +1,6 @@
 ---
 name: social-media-post
-description: Create platform-specific social media posts from a niche, topic, campaign idea, or source material using research, source extraction, and tailored writing for channels like X, LinkedIn, Instagram, TikTok, or YouTube Shorts. Use when the user wants social content, post variants, threads, captions, or channel-specific copy.
+description: When the user wants social media content, post variants, threads, captions, hooks, or channel-specific copy for X, LinkedIn, Instagram, TikTok, or YouTube Shorts. Also use when the user wants to turn a topic, campaign idea, product page, article, or transcript into social posts, or asks for platform-specific repurposing instead of one generic draft. Use this whenever research, source extraction, and writing should be routed through DumplingAI-powered capabilities.
 ---
 
 # Social Media Post

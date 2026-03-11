@@ -16,7 +16,7 @@ npm install -g dumplingai-cli
 
 ```bash
 dumplingai login --api-key sk_yourkey
-dumplingai catalog search "google search capability"
+dumplingai catalog search "google search"
 dumplingai run capability google_search --input '{"query":"latest TypeScript release"}'
 ```
 
@@ -27,7 +27,7 @@ dumplingai run capability google_search --input '{"query":"latest TypeScript rel
 - `dumplingai logout`
 - `dumplingai status`
 - `dumplingai view-config`
-- `dumplingai catalog search <prompt>`
+- `dumplingai catalog search <prompt>`  # use short keyword queries like "google search"
 - `dumplingai catalog details <type> <id>`
 - `dumplingai run <type> <id> --input '<json>'`
 - `dumplingai balance`

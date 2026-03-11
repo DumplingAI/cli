@@ -14,6 +14,7 @@ describe('command parsing', () => {
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dumplingai-command-'));
     vi.stubEnv('DUMPLINGAI_API_KEY', 'sk_test');
     vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+    vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
   });
 
   afterEach(() => {
@@ -36,6 +37,34 @@ describe('command parsing', () => {
       type: 'capability',
       limit: 5,
     });
+  });
+
+  it('prints a retry hint when catalog search returns no results', async () => {
+    vi.spyOn(DumplingAIClient.prototype, 'searchCatalog').mockResolvedValue({ items: [] });
+    const stderrWrite = vi.spyOn(process.stderr, 'write');
+
+    await makeCatalogCommand().parseAsync(['search', 'google search capability'], {
+      from: 'user',
+    });
+
+    expect(stderrWrite).toHaveBeenCalledWith(
+      expect.stringContaining('No catalog results found. Retry with a shorter keyword query'),
+    );
+  });
+
+  it('does not print the no-results hint when catalog search returns results', async () => {
+    vi.spyOn(DumplingAIClient.prototype, 'searchCatalog').mockResolvedValue({
+      items: [{ id: 'google_search' }],
+    });
+    const stderrWrite = vi.spyOn(process.stderr, 'write');
+
+    await makeCatalogCommand().parseAsync(['search', 'google search'], {
+      from: 'user',
+    });
+
+    expect(stderrWrite).not.toHaveBeenCalledWith(
+      expect.stringContaining('No catalog results found. Retry with a shorter keyword query'),
+    );
   });
 
   it('parses catalog details arguments', async () => {
