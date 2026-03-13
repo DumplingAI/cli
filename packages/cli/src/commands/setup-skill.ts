@@ -16,6 +16,7 @@ function detectEnvironments(cwd: string): AgentEnvironment[] {
   const claudeDir = path.join(cwd, '.claude');
   const cursorDir = path.join(cwd, '.cursor');
   const codexDir = path.join(cwd, '.codex');
+  const agentsDir = path.join(cwd, '.agents');
 
   return [
     {
@@ -32,6 +33,11 @@ function detectEnvironments(cwd: string): AgentEnvironment[] {
       name: 'Codex',
       skillDir: path.join(codexDir, 'skills', 'dumplingai-cli'),
       detected: fs.existsSync(codexDir),
+    },
+    {
+      name: 'Agents',
+      skillDir: path.join(agentsDir, 'skills', 'dumplingai-cli'),
+      detected: fs.existsSync(agentsDir),
     },
   ];
 }
@@ -74,7 +80,7 @@ export function makeSetupSkillCommand(): Command {
         const targets = opts.all ? envs : envs.filter((env) => env.detected);
 
         if (targets.length === 0) {
-          printStatus('No agent environments detected (.claude, .cursor, .codex).');
+          printStatus('No agent environments detected (.claude, .cursor, .codex, .agents).');
           printStatus('Use --all to install anyway, or --dir <path> for a custom location.');
           return;
         }
