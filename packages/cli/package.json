@@ -1,6 +1,6 @@
 {
   "name": "dumplingai-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "DumplingAI CLI — discover and execute Unified API Platform capabilities from the terminal",
   "license": "MIT",
   "type": "module",
@@ -38,14 +38,16 @@
   "scripts": {
     "bundle-skills": "node scripts/bundle-skills.js",
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
-    "prebuild": "pnpm run bundle-skills",
-    "build": "pnpm run clean && tsc",
+    "prebuild": "npm run bundle-skills",
+    "build": "npm run clean && tsc",
     "dev": "tsc --watch",
+    "pretest": "npm run bundle-skills",
     "test": "vitest run",
     "test:watch": "vitest",
+    "pretypecheck": "npm run bundle-skills",
     "typecheck": "tsc --noEmit",
     "lint": "prettier --check src tests",
-    "prepublishOnly": "pnpm run build && pnpm run test"
+    "prepublishOnly": "npm run build && npm run test"
   },
   "dependencies": {
     "commander": "^12.1.0"

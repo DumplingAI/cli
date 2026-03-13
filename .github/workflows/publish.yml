@@ -22,21 +22,17 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Typecheck
-        run: pnpm --filter dumplingai-cli typecheck
+        run: npm run --workspace=dumplingai-cli typecheck
 
       - name: Test
-        run: pnpm --filter dumplingai-cli test
+        run: npm run --workspace=dumplingai-cli test
 
       - name: Build
-        run: pnpm --filter dumplingai-cli build
+        run: npm run --workspace=dumplingai-cli build
 
       - name: Show npm version
         run: npm --version

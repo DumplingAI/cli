@@ -41,7 +41,7 @@ function writeSkillAsset(baseDir: string, skill: SkillAsset): void {
   for (const [relativeFile, content] of Object.entries(skill.files)) {
     const outputPath = path.join(skillDir, relativeFile);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-    fs.writeFileSync(outputPath, content, 'utf8');
+    fs.writeFileSync(outputPath, content as string, 'utf8');
   }
 }
 
