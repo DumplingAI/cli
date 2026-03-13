@@ -11,5 +11,5 @@ credentials.json
 .agents/
 .cursor/
 .codex/
-.dumplingai/
 .pnpm-store/
+packages/cli/src/generated/

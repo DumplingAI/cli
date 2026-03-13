@@ -36,7 +36,9 @@
     "access": "public"
   },
   "scripts": {
+    "bundle-skills": "node scripts/bundle-skills.js",
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild": "pnpm run bundle-skills",
     "build": "pnpm run clean && tsc",
     "dev": "tsc --watch",
     "test": "vitest run",
