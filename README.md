@@ -5,12 +5,8 @@ Use DumplingAI's Unified API Platform from the terminal. The CLI is built for ag
 ## Quick Start
 
 ```bash
-# Option 1: No install required
-npx -y dumplingai-cli init
-
-# Option 2: Global install
 npm install -g dumplingai-cli
-dumplingai login --api-key sk_yourkey
+dumplingai init
 ```
 
 Get your API key at https://app.dumplingai.com/settings/api-keys

@@ -12,3 +12,4 @@ credentials.json
 .cursor/
 .codex/
 .dumplingai/
+.pnpm-store/

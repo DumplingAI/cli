@@ -1,14 +1,6 @@
 # Installation Guide
 
-## Quick Start (no install required)
-
-```bash
-npx -y dumplingai-cli init
-```
-
-This runs the CLI directly via npx and walks you through authentication.
-
-## Global Install
+## Quick Start
 
 ```bash
 # npm
@@ -21,10 +13,10 @@ pnpm add -g dumplingai-cli
 yarn global add dumplingai-cli
 ```
 
-Then authenticate:
+Then initialize and authenticate:
 
 ```bash
-dumplingai login --api-key sk_yourkey
+dumplingai init
 ```
 
 ## PATH Troubleshooting

@@ -32,7 +32,7 @@ export function makeStatusCommand(): Command {
       if (envKey) {
         authSource = 'env (DUMPLINGAI_API_KEY)';
       } else if (storedKey) {
-        authSource = 'credential store';
+        authSource = 'credentials file';
       } else {
         authSource = 'none';
       }

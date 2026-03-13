@@ -15,7 +15,7 @@
 ## Credential Safety
 
 - Never hardcode API keys in code, scripts, or commit messages.
-- Use `DUMPLINGAI_API_KEY` env var or the credential store (`dumplingai login`).
+- Use `DUMPLINGAI_API_KEY` env var or the local credentials file written by `dumplingai login`.
 - Never log or print the full API key — use `dumplingai view-config` which masks it.
 
 ## URL Validation

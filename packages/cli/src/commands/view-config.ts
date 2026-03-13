@@ -18,7 +18,7 @@ export function makeViewConfigCommand(): Command {
       if (envKey) {
         apiKeySource = 'env (DUMPLINGAI_API_KEY)';
       } else if (storedKey) {
-        apiKeySource = 'credential store';
+        apiKeySource = 'credentials file';
       } else {
         apiKeySource = 'none';
       }

@@ -3,18 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-function mockFailingKeytar() {
-  const error = new Error('keychain unavailable');
-  vi.doMock('keytar', () => ({
-    default: {
-      setPassword: vi.fn().mockRejectedValue(error),
-      getPassword: vi.fn().mockRejectedValue(error),
-      deletePassword: vi.fn().mockRejectedValue(error),
-    },
-  }));
-}
-
-describe('auth keytar fallback', () => {
+describe('auth storage', () => {
   let tmpHome: string;
 
   beforeEach(() => {
@@ -23,17 +12,13 @@ describe('auth keytar fallback', () => {
   });
 
   afterEach(() => {
-    vi.unmock('keytar');
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
     vi.resetModules();
     fs.rmSync(tmpHome, { recursive: true, force: true });
   });
 
-  it('saveCredential falls back to credentials file when keytar write fails', async () => {
-    vi.resetModules();
-    mockFailingKeytar();
-    const stderrSpy = vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
+  it('saveCredential writes the credentials file', async () => {
     const { saveCredential, getCredentialsFilePath } = await import('../../src/utils/auth.js');
 
     await saveCredential('sk_saved');
@@ -41,12 +26,9 @@ describe('auth keytar fallback', () => {
     const credPath = getCredentialsFilePath();
     expect(fs.existsSync(credPath)).toBe(true);
     expect(JSON.parse(fs.readFileSync(credPath, 'utf8'))).toEqual({ apiKey: 'sk_saved' });
-    expect(stderrSpy).toHaveBeenCalled();
   });
 
-  it('loadCredential falls back to credentials file when keytar read fails', async () => {
-    vi.resetModules();
-    mockFailingKeytar();
+  it('loadCredential reads the credentials file', async () => {
     const { loadCredential, getCredentialsFilePath } = await import('../../src/utils/auth.js');
 
     const credPath = getCredentialsFilePath();
@@ -56,9 +38,7 @@ describe('auth keytar fallback', () => {
     await expect(loadCredential()).resolves.toBe('sk_from_file');
   });
 
-  it('deleteCredential removes file even when keytar delete fails', async () => {
-    vi.resetModules();
-    mockFailingKeytar();
+  it('deleteCredential removes the credentials file', async () => {
     const { deleteCredential, getCredentialsFilePath } = await import('../../src/utils/auth.js');
 
     const credPath = getCredentialsFilePath();
