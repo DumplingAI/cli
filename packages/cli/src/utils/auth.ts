@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { API_KEYS_URL } from './api-key.js';
 import { getConfigPath } from './config.js';
 
 function getCredentialsFilePath(): string {
@@ -43,7 +44,8 @@ export async function requireAuth(existingApiKey?: string): Promise<string> {
   if (!apiKey) {
     process.stderr.write(
       'Error: No API key found.\n' +
-        'Run `dumplingai login --api-key <key>` or set DUMPLINGAI_API_KEY env var.\n',
+        'Run `dumplingai login` or set DUMPLINGAI_API_KEY env var.\n' +
+        `Create a key at ${API_KEYS_URL}\n`,
     );
     process.exit(1);
   }

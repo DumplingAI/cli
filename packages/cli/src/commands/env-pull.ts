@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { loadCredential } from '../utils/auth.js';
 import { exitWithError, printStatus } from '../utils/output.js';
+import { API_KEYS_URL } from '../utils/api-key.js';
 
 const ENV_KEY_NAME = 'DUMPLINGAI_API_KEY';
 
@@ -17,7 +18,7 @@ export function makeEnvPullCommand(): Command {
           const apiKey = await loadCredential();
           if (!apiKey) {
             exitWithError(
-              `No stored credentials found. Run \`dumplingai login --api-key <key>\` first.`,
+              `No stored credentials found. Run \`dumplingai login\` first. Create a key at ${API_KEYS_URL}`,
             );
           }
 

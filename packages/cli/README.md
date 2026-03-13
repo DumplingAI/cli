@@ -15,7 +15,7 @@ npm install -g dumplingai-cli
 ## Quick Start
 
 ```bash
-dumplingai login --api-key sk_yourkey
+dumplingai login
 dumplingai catalog search "google search"
 dumplingai run capability google_search --input '{"query":"latest TypeScript release"}'
 ```
@@ -23,7 +23,7 @@ dumplingai run capability google_search --input '{"query":"latest TypeScript rel
 ## Commands
 
 - `dumplingai init`
-- `dumplingai login --api-key <key>`
+- `dumplingai login`
 - `dumplingai logout`
 - `dumplingai status`
 - `dumplingai view-config`
@@ -39,6 +39,8 @@ dumplingai run capability google_search --input '{"query":"latest TypeScript rel
 ## Links
 
 - Docs: https://docs.dumplingai.com/unified-api-platform
-- API keys: https://app.dumplingai.com/settings/api-keys
+- API keys: https://app.dumplingai.com/api-keys
 - Workbench: https://app.dumplingai.com/workbench
 - Repository: https://github.com/dumplingai/cli
+
+`dumplingai init` and `dumplingai login` prompt for an API key interactively when one is not passed with `--api-key` or `DUMPLINGAI_API_KEY`.

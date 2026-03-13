@@ -9,14 +9,14 @@ npm install -g dumplingai-cli
 dumplingai init
 ```
 
-Get your API key at https://app.dumplingai.com/settings/api-keys
+Get your API key at https://app.dumplingai.com/api-keys
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `dumplingai init` | Authenticate and optionally install bundled agent skills |
-| `dumplingai login --api-key <key>` | Save API credentials |
+| `dumplingai login` | Save API credentials interactively or with `--api-key` |
 | `dumplingai logout` | Remove stored credentials |
 | `dumplingai status` | Show CLI version, auth status, and v2 balance context |
 | `dumplingai view-config` | Display current configuration |

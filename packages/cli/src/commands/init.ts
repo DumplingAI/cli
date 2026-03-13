@@ -4,11 +4,16 @@ import { DumplingAIClient, ApiError } from '../client/api.js';
 import { getApiUrl } from '../utils/config.js';
 import { printStatus, exitWithError } from '../utils/output.js';
 import { makeSetupSkillCommand } from './setup-skill.js';
+import {
+  getInvalidApiKeyMessage,
+  getMissingApiKeyMessage,
+  resolveApiKeyWithPrompt,
+} from '../utils/api-key.js';
 
 export function makeInitCommand(): Command {
   return new Command('init')
     .description('Initialize the v2 CLI: authenticate and optionally set up agent skills')
-    .option('--api-key <key>', 'API key (or set DUMPLINGAI_API_KEY env var)')
+    .option('--api-key <key>', 'API key (otherwise prompt, or set DUMPLINGAI_API_KEY)')
     .option('--skip-skill', 'Skip agent skill installation')
     .action(async (opts: { apiKey?: string; skipSkill?: boolean }) => {
       const apiUrl = getApiUrl();
@@ -47,10 +52,9 @@ export function makeInitCommand(): Command {
       }
 
       // 2. Get API key
-      const apiKey = providedApiKey;
+      const apiKey = await resolveApiKeyWithPrompt(providedApiKey);
       if (!apiKey) {
-        printStatus('Get your API key at: https://app.dumplingai.com/settings/api-keys');
-        exitWithError('Provide --api-key <key> or set DUMPLINGAI_API_KEY env var.');
+        exitWithError(getMissingApiKeyMessage());
       }
 
       // 3. Validate key
@@ -59,11 +63,11 @@ export function makeInitCommand(): Command {
       try {
         const result = await client.validateKey();
         if (!result.authenticated) {
-          exitWithError('API key is invalid. Check your key at https://app.dumplingai.com/settings/api-keys');
+          exitWithError(getInvalidApiKeyMessage());
         }
       } catch (err) {
         if (err instanceof ApiError && err.statusCode === 401) {
-          exitWithError('API key is invalid. Check your key at https://app.dumplingai.com/settings/api-keys');
+          exitWithError(getInvalidApiKeyMessage());
         }
         printStatus('Warning: could not validate key against /api/v2/balance. Saving anyway.');
       }

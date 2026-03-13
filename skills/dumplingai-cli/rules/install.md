@@ -41,4 +41,4 @@ dumplingai status      # shows auth status
 
 ## Get Your API Key
 
-Sign up and get your API key at: https://app.dumplingai.com/settings/api-keys
+Sign up and get your API key at: https://app.dumplingai.com/api-keys
